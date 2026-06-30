@@ -260,7 +260,12 @@
     <section class="page" id="page-formBuilder">
       <div class="page-head">
         <div><h2>Formulário</h2><p>Crie e edite as perguntas da candidatura</p></div>
-        <button class="btn btn-primary" id="addQuestionBtn">+ Nova Pergunta</button>
+        <div style="display:flex;gap:8px;flex-wrap:wrap">
+          <button class="btn btn-ghost btn-sm" id="exportFormBtn" type="button">📤 Exportar JSON</button>
+          <button class="btn btn-ghost btn-sm" id="importFormBtn" type="button">📥 Importar JSON</button>
+          <input type="file" id="importFormFile" accept="application/json" style="display:none">
+          <button class="btn btn-primary" id="addQuestionBtn">+ Nova Pergunta</button>
+        </div>
       </div>
       <div id="questionsList"></div>
       <button class="btn btn-ghost" id="saveFormBtn" style="margin-top:14px">💾 Salvar Formulário</button>
@@ -803,6 +808,37 @@ function initAdminApp(){
   });
   document.getElementById('saveFormBtn').addEventListener('click', saveFormConfig);
   document.getElementById('addQuestionBtn').addEventListener('click', addQuestion);
+  document.getElementById('exportFormBtn').addEventListener('click', ()=>{
+    const blob = new Blob([JSON.stringify(questions, null, 2)], {type:'application/json'});
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    a.href = url; a.download = 'formulario-perguntas.json';
+    document.body.appendChild(a); a.click(); a.remove();
+    URL.revokeObjectURL(url);
+    toast('Perguntas exportadas! Arquivo baixado.');
+  });
+  document.getElementById('importFormBtn').addEventListener('click', ()=>{
+    document.getElementById('importFormFile').click();
+  });
+  document.getElementById('importFormFile').addEventListener('change', (e)=>{
+    const file = e.target.files[0];
+    if(!file) return;
+    const reader = new FileReader();
+    reader.onload = () => {
+      try{
+        const parsed = JSON.parse(reader.result);
+        if(!Array.isArray(parsed)) throw new Error('Formato inválido');
+        questions = parsed;
+        renderQuestions();
+        toast('Perguntas importadas! Clique em "Salvar Formulário" para confirmar.');
+      }catch(err){
+        console.error(err);
+        toast('Arquivo JSON inválido.', true);
+      }
+      e.target.value = '';
+    };
+    reader.readAsText(file);
+  });
   document.getElementById('filterStatus').addEventListener('change', renderSubmissions);
   document.getElementById('closeSubModal').addEventListener('click', ()=>document.getElementById('subModalOverlay').classList.remove('show'));
 
