@@ -17,7 +17,7 @@
 <style>
   :root{
     --bg:#0a0a0b; --bg-soft:#121214; --card:#161618; --border:#2a2a2e;
-    --accent:#e0c020; --accent-glow:color-mix(in srgb, var(--accent) 45%, transparent);
+    --accent:#dc143c; --accent-glow:color-mix(in srgb, var(--accent) 45%, transparent);
     --text:#f2f2f3; --text-dim:#9a9aa0; --success:#2bd97a; --warn:#e0b020; --danger:#d92b2b;
   }
   *{box-sizing:border-box;margin:0;padding:0}
@@ -38,7 +38,7 @@
   .wrap{max-width:760px;margin:0 auto;padding:60px 20px 100px}
   header.hero{text-align:center;margin-bottom:48px;animation:fadeDown .8s ease both}
   .badge{display:inline-block;padding:6px 16px;border:1px solid var(--accent);color:var(--accent);border-radius:999px;font-size:12px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;margin-bottom:18px;background:color-mix(in srgb, var(--accent) 8%, transparent)}
-  h1{font-family:'Bebas Neue',sans-serif;font-size:clamp(38px,7vw,64px);letter-spacing:.03em;line-height:1.05;background:linear-gradient(180deg,#fff 30%,#c9c9cc 100%);-webkit-background-clip:text;background-clip:text;color:transparent;text-shadow:0 0 50px var(--accent-glow)}
+  h1{font-family:'Bebas Neue',sans-serif;font-size:clamp(38px,7vw,64px);letter-spacing:.03em;line-height:1.05;color:var(--accent);text-shadow:0 0 50px var(--accent-glow)}
   .subtitle{color:var(--text-dim);font-size:16px;margin-top:14px;max-width:560px;margin-left:auto;margin-right:auto;line-height:1.55}
   .card{background:linear-gradient(180deg,var(--card),var(--bg-soft));border:1px solid var(--border);border-radius:18px;padding:32px;box-shadow:0 20px 60px rgba(0,0,0,.5);animation:fadeUp .8s .15s ease both}
   .field{margin-bottom:24px;animation:fadeUp .5s ease both}
@@ -181,7 +181,7 @@
   <div class="wrap">
     <header class="hero">
       <span class="badge" id="statusBadge">Inscrições Abertas</span>
-      <h1 id="siteTitle">EDITAL STAFF BCA</h1>
+      <h1 id="siteTitle">CRIMSON ORGS</h1>
       <p class="subtitle" id="siteSubtitle">Carregando...</p>
     </header>
     <div class="card" id="formCard">
@@ -198,7 +198,7 @@
 <div id="loginView">
   <div class="login-box">
     <h1 id="loginTitle">PAINEL ADMIN</h1>
-    <p id="loginSubtitle">EDITAL STAFF BCA — Crimson City RP</p>
+    <p id="loginSubtitle">CRIMSON ORGS</p>
     <input type="text" id="loginUser" placeholder="Usuário" autocomplete="username">
     <input type="password" id="loginPass" placeholder="Senha" autocomplete="current-password">
     <button class="btnMain" id="loginBtn" style="margin-top:4px">Entrar</button>
@@ -276,7 +276,7 @@
       <div class="adminCard">
         <h3>Identidade</h3>
         <label>Título Principal</label>
-        <input type="text" id="cfgTitle" placeholder="EDITAL STAFF BCA">
+        <input type="text" id="cfgTitle" placeholder="CRIMSON ORGS">
         <label>Subtítulo / Descrição</label>
         <textarea id="cfgSubtitle" placeholder="Preencha o formulário abaixo para se candidatar..."></textarea>
         <label>Texto do Rodapé (página pública)</label>
@@ -284,7 +284,7 @@
         <label>Logo da Barra Lateral (Admin)</label>
         <input type="text" id="cfgLogo" placeholder="EDITAL STAFF">
         <label>Subtítulo da Tela de Login</label>
-        <input type="text" id="cfgLoginSubtitle" placeholder="EDITAL STAFF BCA — Crimson City RP">
+        <input type="text" id="cfgLoginSubtitle" placeholder="CRIMSON ORGS">
       </div>
       <div class="adminCard">
         <h3>🎨 Cores do Site</h3>
@@ -292,7 +292,7 @@
         <div class="row">
           <div>
             <label>Cor de Destaque (accent)</label>
-            <input type="color" id="cfgColor" value="#e0c020">
+            <input type="color" id="cfgColor" value="#dc143c">
           </div>
           <div>
             <label>Fundo Principal</label>
@@ -504,13 +504,13 @@ async function loadPublicSite(){
   const site = siteSnap.exists() ? siteSnap.data() : {};
   siteConfigCache = site;
 
-  document.getElementById('siteTitle').textContent = site.title || 'EDITAL STAFF BCA';
+  document.getElementById('siteTitle').textContent = site.title || 'CRIMSON ORGS';
   document.getElementById('siteSubtitle').textContent = site.subtitle || 'Preencha o formulário abaixo para se candidatar à equipe staff.';
-  document.title = site.title || 'EDITAL STAFF BCA';
+  document.title = site.title || 'CRIMSON ORGS';
   const footerText = site.footerText || 'Crimson City RP';
   document.getElementById('footerNote').innerHTML = escapeHtml(footerText) + ' &copy; <span id="year"></span> — Todas as respostas são analisadas pela equipe de recrutamento.';
   document.getElementById('year').textContent = new Date().getFullYear();
-  document.getElementById('loginSubtitle').textContent = site.loginSubtitle || ((site.title || 'EDITAL STAFF BCA') + ' — ' + footerText);
+  document.getElementById('loginSubtitle').textContent = site.loginSubtitle || ((site.title || 'CRIMSON ORGS') + ' — ' + footerText);
   const logoText = site.logoText || 'EDITAL STAFF';
   const logoParts = logoText.split(' ');
   const logoFirst = logoParts.shift();
@@ -768,7 +768,7 @@ function initAdminApp(){
   });
   document.getElementById('resetColorsBtn').addEventListener('click', ()=>{
     const defaults = {
-      cfgColor:'#e0c020', cfgBg:'#0a0a0b', cfgBgSoft:'#121214', cfgCard:'#161618',
+      cfgColor:'#dc143c', cfgBg:'#0a0a0b', cfgBgSoft:'#121214', cfgCard:'#161618',
       cfgBorder:'#2a2a2e', cfgText:'#f2f2f3', cfgTextDim:'#9a9aa0',
       cfgSuccess:'#2bd97a', cfgWarn:'#e0b020', cfgDanger:'#d92b2b'
     };
@@ -791,7 +791,7 @@ function initAdminApp(){
           username: document.getElementById('cfgWebhookName').value.trim() || 'Crimson City RP',
           avatar_url: document.getElementById('cfgWebhookAvatar').value.trim() || undefined,
           embeds: [{
-            color: 0xe0c020,
+            color: 0xdc143c,
             title: '🔔 Teste de Webhook',
             description: 'Se você está vendo esta mensagem, a integração com o Discord está funcionando perfeitamente! ✅',
             timestamp: new Date().toISOString()
@@ -865,9 +865,9 @@ function initAdminApp(){
 async function loadSiteConfig(){
   const snap = await getDoc(doc(db,'config','site'));
   const site = snap.exists() ? snap.data() : {};
-  document.getElementById('cfgTitle').value = site.title || 'EDITAL STAFF BCA';
+  document.getElementById('cfgTitle').value = site.title || 'CRIMSON ORGS';
   document.getElementById('cfgSubtitle').value = site.subtitle || 'Preencha o formulário abaixo para se candidatar à equipe staff.';
-  document.getElementById('cfgColor').value = site.accentColor || '#e0c020';
+  document.getElementById('cfgColor').value = site.accentColor || '#dc143c';
   document.getElementById('cfgBg').value = site.bgColor || '#0a0a0b';
   document.getElementById('cfgBgSoft').value = site.bgSoftColor || '#121214';
   document.getElementById('cfgCard').value = site.cardColor || '#161618';
@@ -879,7 +879,7 @@ async function loadSiteConfig(){
   document.getElementById('cfgDanger').value = site.dangerColor || '#d92b2b';
   document.getElementById('cfgFooter').value = site.footerText || 'Crimson City RP';
   document.getElementById('cfgLogo').value = site.logoText || 'EDITAL STAFF';
-  document.getElementById('cfgLoginSubtitle').value = site.loginSubtitle || ((site.title || 'EDITAL STAFF BCA') + ' — ' + (site.footerText || 'Crimson City RP'));
+  document.getElementById('cfgLoginSubtitle').value = site.loginSubtitle || ((site.title || 'CRIMSON ORGS') + ' — ' + (site.footerText || 'Crimson City RP'));
   document.getElementById('cfgClosedMsg').value = site.closedMessage || '';
   document.getElementById('cfgWebhookUrl').value = site.discordWebhookUrl || '';
   document.getElementById('cfgWebhookName').value = site.discordWebhookName || '';
@@ -921,7 +921,7 @@ async function saveSiteConfig(silent){
   toast(silent ? (isOpen ? 'Inscrições reabertas!' : 'Inscrições fechadas!') : 'Configurações salvas com sucesso!');
 }
 
-// ===== Perguntas padrão do EDITAL STAFF BCA (extraídas do formulário original) =====
+// ===== Perguntas padrão do CRIMSON ORGS (extraídas do formulário original) =====
 const DEFAULT_QUESTIONS = [
   { id:'q_nome', label:'Seu nome', type:'text', required:true, hint:'Preencha com o seu nome real.', options:[] },
   { id:'q_idade', label:'Sua idade (data de nascimento)', type:'text', required:true, hint:'Preencha com a sua data de nascimento (ex: 15/03/2008). Esses dados servem para o responsável saber a sua idade!', options:[] },
@@ -1188,7 +1188,7 @@ async function sendDiscordResultWebhook(submission, status){
   const isApproved = status === 'approved';
   const mention = formatDiscordMention(discordRaw);
   const brand = siteConfigCache.footerText || 'Crimson City RP';
-  const formTitle = siteConfigCache.title || 'EDITAL STAFF BCA';
+  const formTitle = siteConfigCache.title || 'CRIMSON ORGS';
 
   const embed = {
     color: isApproved ? 0x2bd97a : 0xd92b2b,
