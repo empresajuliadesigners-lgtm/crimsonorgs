@@ -3,7 +3,15 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>EDITAL STAFF BCA</title>
+<title>CRIMSON ORGS</title>
+<meta name="description" content="Crimson Orgs — Crimson City RP.">
+<meta property="og:type" content="website">
+<meta property="og:title" content="CRIMSON ORGS">
+<meta property="og:description" content="Crimson Orgs — Crimson City RP.">
+<meta property="og:site_name" content="Crimson Orgs">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="CRIMSON ORGS">
+<meta name="twitter:description" content="Crimson Orgs — Crimson City RP.">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Bebas+Neue&display=swap" rel="stylesheet">
 <style>
@@ -374,13 +382,13 @@ import { getStorage, ref as storageRef, uploadBytes, getDownloadURL } from "http
 
 // ===== CONFIG DO SEU FIREBASE =====
 const firebaseConfig = {
-  apiKey: "AIzaSyDpFNHdS5qyvzisflT0sik-XOf5vkiHFX0",
-  authDomain: "cidade-avancada-4aa20.firebaseapp.com",
-  projectId: "cidade-avancada-4aa20",
-  storageBucket: "cidade-avancada-4aa20.firebasestorage.app",
-  messagingSenderId: "703999683431",
-  appId: "1:703999683431:web:df2f9aae59f61e198b9dc2",
-  measurementId: "G-25VS45NJPT"
+  apiKey: "AIzaSyANtPkhoynQ0GykKSKK_XFkr3UH1OHymtQ",
+  authDomain: "crimsonorgs.firebaseapp.com",
+  projectId: "crimsonorgs",
+  storageBucket: "crimsonorgs.firebasestorage.app",
+  messagingSenderId: "451075555475",
+  appId: "1:451075555475:web:7bb2c6778bba8589718d66",
+  measurementId: "G-J5DRL5JF7B"
 };
 // Domínio "falso" usado pra transformar usuário em e-mail no Firebase Auth.
 // Não precisa existir de verdade, é só um identificador.
@@ -390,7 +398,12 @@ const ADMIN_EMAIL_DOMAIN = "@admin.editalstaff.local";
 const fbApp = initializeApp(firebaseConfig);
 const auth = getAuth(fbApp);
 const db = getFirestore(fbApp);
-const storage = getStorage(fbApp);
+let storage = null;
+try{
+  storage = getStorage(fbApp);
+}catch(err){
+  console.error('Falha ao iniciar o Firebase Storage (anexos podem não funcionar):', err);
+}
 
 document.getElementById('year').textContent = new Date().getFullYear();
 
@@ -680,6 +693,9 @@ async function handlePublicSubmit(e){
   btn.disabled = true;
   btn.textContent = fileQuestions.length ? 'Enviando anexos...' : 'Enviando...';
   try{
+    if(fileQuestions.length && !storage){
+      throw new Error('storage-unavailable');
+    }
     for(const {q, file} of fileQuestions){
       const safeName = file.name.replace(/[^a-zA-Z0-9._-]/g,'_');
       const path = `submissions/${Date.now()}_${Math.random().toString(36).slice(2,8)}_${safeName}`;
@@ -701,7 +717,11 @@ async function handlePublicSubmit(e){
     console.error(err);
     btn.disabled = false;
     btn.textContent = 'Enviar Candidatura';
-    alert('Erro ao enviar candidatura. Tente novamente.');
+    if(err && err.message === 'storage-unavailable'){
+      alert('O envio de anexos está temporariamente indisponível. Tente novamente mais tarde ou envie sem o anexo.');
+    } else {
+      alert('Erro ao enviar candidatura. Tente novamente.');
+    }
   }
 }
 
